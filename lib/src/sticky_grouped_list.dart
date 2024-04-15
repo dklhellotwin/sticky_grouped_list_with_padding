@@ -172,7 +172,6 @@ class StickyGroupedListView<T, E> extends StatefulWidget {
   State<StatefulWidget> createState() => StickyGroupedListViewState<T, E>();
 }
 
-@internal
 class StickyGroupedListViewState<T, E>
     extends State<StickyGroupedListView<T, E>> {
   /// Used within [GroupedItemScrollController].
