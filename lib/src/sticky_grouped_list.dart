@@ -68,7 +68,7 @@ class StickyGroupedListView<T, E> extends StatefulWidget {
   final Color stickyHeaderBackgroundColor;
 
   /// Controller for jumping or scrolling to an item.
-  final GroupedItemScrollController? itemScrollController;
+  final BaseGroupedItemScrollController? itemScrollController;
 
   /// Notifier that reports the items laid out in the list after each frame.
   final ItemPositionsListener? itemPositionsListener;
@@ -184,7 +184,7 @@ class StickyGroupedListViewState<T, E>
 
   final StreamController<int> _streamController = StreamController<int>();
   late ItemPositionsListener _listener;
-  late GroupedItemScrollController _controller;
+  late BaseGroupedItemScrollController _controller;
   GlobalKey? _groupHeaderKey;
   final GlobalKey _key = GlobalKey();
   int _topElementIndex = 0;
@@ -393,6 +393,8 @@ class StickyGroupedListViewState<T, E>
 }
 
 abstract class BaseGroupedItemScrollController extends ItemScrollController {
+  StickyGroupedListViewState? _stickyGroupedListViewState;
+
   void jumpToElement({
     required dynamic identifier,
     double alignment = 0,
@@ -407,6 +409,10 @@ abstract class BaseGroupedItemScrollController extends ItemScrollController {
     Curve curve = Curves.linear,
     List<double> opacityAnimationWeights = const [40, 20, 40],
   });
+
+  void _attach(StickyGroupedListViewState stickyGroupedListViewState);
+
+  void _detach();
 }
 
 /// Controller to jump or scroll to a particular element the list.
