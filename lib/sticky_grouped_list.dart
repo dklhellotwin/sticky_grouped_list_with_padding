@@ -16,7 +16,8 @@ export 'src/sticky_grouped_list.dart'
     show
         StickyGroupedListView,
         GroupedItemScrollController,
-        StickyGroupedListViewState;
+        StickyGroupedListViewState,
+        BaseGroupedItemScrollController;
 export 'src/sticky_grouped_list_order.dart' show StickyGroupedListOrder;
 
 export 'package:scrollable_positioned_list/scrollable_positioned_list.dart'

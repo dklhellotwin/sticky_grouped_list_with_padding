@@ -392,10 +392,27 @@ class StickyGroupedListViewState<T, E>
   }
 }
 
+abstract class BaseGroupedItemScrollController extends ItemScrollController {
+  void jumpToElement({
+    required dynamic identifier,
+    double alignment = 0,
+    bool automaticAlignment = true,
+  });
+
+  Future<void> scrollToElement({
+    required dynamic identifier,
+    required Duration duration,
+    double alignment = 0,
+    bool automaticAlignment = true,
+    Curve curve = Curves.linear,
+    List<double> opacityAnimationWeights = const [40, 20, 40],
+  });
+}
+
 /// Controller to jump or scroll to a particular element the list.
 ///
 /// See [ItemScrollController].
-class GroupedItemScrollController extends ItemScrollController {
+class GroupedItemScrollController extends BaseGroupedItemScrollController {
   StickyGroupedListViewState? _stickyGroupedListViewState;
 
   /// Whether any [StickyGroupedListView] objects are attached this object.
