@@ -413,6 +413,8 @@ abstract class BaseGroupedItemScrollController extends ItemScrollController {
   void attach(StickyGroupedListViewState stickyGroupedListViewState);
 
   void detach();
+
+  int findIndexByIdentifier(dynamic identifier);
 }
 
 /// Controller to jump or scroll to a particular element the list.
@@ -503,6 +505,7 @@ class GroupedItemScrollController extends BaseGroupedItemScrollController {
     );
   }
 
+  @override
   int findIndexByIdentifier(dynamic identifier) {
     var elements = _stickyGroupedListViewState!.sortedElements;
     var identify = _stickyGroupedListViewState!.getIdentifier;
