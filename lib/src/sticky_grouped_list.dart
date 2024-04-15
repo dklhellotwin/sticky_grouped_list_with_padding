@@ -196,7 +196,7 @@ class StickyGroupedListViewState<T, E>
   void initState() {
     super.initState();
     _controller = widget.itemScrollController ?? GroupedItemScrollController();
-    _controller._attach(this);
+    _controller.attach(this);
     _listener = widget.itemPositionsListener ?? ItemPositionsListener.create();
     _listener.itemPositions.addListener(_positionListener);
   }
@@ -210,7 +210,7 @@ class StickyGroupedListViewState<T, E>
 
   @override
   void deactivate() {
-    _controller._detach();
+    _controller.detach();
     super.deactivate();
   }
 
@@ -218,11 +218,11 @@ class StickyGroupedListViewState<T, E>
   void didUpdateWidget(StickyGroupedListView<T, E> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.itemScrollController?._stickyGroupedListViewState == this) {
-      oldWidget.itemScrollController?._detach();
+      oldWidget.itemScrollController?.detach();
     }
     if (widget.itemScrollController?._stickyGroupedListViewState != this) {
-      widget.itemScrollController?._detach();
-      widget.itemScrollController?._attach(this);
+      widget.itemScrollController?.detach();
+      widget.itemScrollController?.attach(this);
     }
   }
 
@@ -410,15 +410,16 @@ abstract class BaseGroupedItemScrollController extends ItemScrollController {
     List<double> opacityAnimationWeights = const [40, 20, 40],
   });
 
-  void _attach(StickyGroupedListViewState stickyGroupedListViewState);
+  void attach(StickyGroupedListViewState stickyGroupedListViewState);
 
-  void _detach();
+  void detach();
 }
 
 /// Controller to jump or scroll to a particular element the list.
 ///
 /// See [ItemScrollController].
 class GroupedItemScrollController extends BaseGroupedItemScrollController {
+  @override
   StickyGroupedListViewState? _stickyGroupedListViewState;
 
   /// Whether any [StickyGroupedListView] objects are attached this object.
@@ -470,18 +471,20 @@ class GroupedItemScrollController extends BaseGroupedItemScrollController {
     );
   }
 
+  @override
   void jumpToElement({
     required dynamic identifier,
     double alignment = 0,
     bool automaticAlignment = true,
   }) {
     return jumpTo(
-      index: _findIndexByIdentifier(identifier),
+      index: findIndexByIdentifier(identifier),
       alignment: alignment,
       automaticAlignment: automaticAlignment,
     );
   }
 
+  @override
   Future<void> scrollToElement({
     required dynamic identifier,
     required Duration duration,
@@ -491,7 +494,7 @@ class GroupedItemScrollController extends BaseGroupedItemScrollController {
     List<double> opacityAnimationWeights = const [40, 20, 40],
   }) {
     return scrollTo(
-      index: _findIndexByIdentifier(identifier),
+      index: findIndexByIdentifier(identifier),
       duration: duration,
       alignment: alignment,
       automaticAlignment: automaticAlignment,
@@ -500,7 +503,7 @@ class GroupedItemScrollController extends BaseGroupedItemScrollController {
     );
   }
 
-  int _findIndexByIdentifier(dynamic identifier) {
+  int findIndexByIdentifier(dynamic identifier) {
     var elements = _stickyGroupedListViewState!.sortedElements;
     var identify = _stickyGroupedListViewState!.getIdentifier;
 
@@ -512,12 +515,14 @@ class GroupedItemScrollController extends BaseGroupedItemScrollController {
     return -1;
   }
 
-  void _attach(StickyGroupedListViewState stickyGroupedListViewState) {
+  @override
+  void attach(StickyGroupedListViewState stickyGroupedListViewState) {
     assert(_stickyGroupedListViewState == null);
     _stickyGroupedListViewState = stickyGroupedListViewState;
   }
 
-  void _detach() {
+  @override
+  void detach() {
     _stickyGroupedListViewState = null;
   }
 }
