@@ -306,7 +306,7 @@ class StickyGroupedListViewState<T, E>
     _listBox ??= _key.currentContext?.findRenderObject() as RenderBox?;
     double height = _listBox?.size.height ?? 0;
     headerDimension = headerHeight / height;
-    fixedHeaderThreshold = (widget.padding?.top ?? 0) / height;
+    final fixedHeaderThreshold = (widget.padding?.top ?? 0) / height;
 
     ItemPosition reducePositions(ItemPosition pos, ItemPosition current) {
       if (widget.reverse) {
@@ -317,7 +317,7 @@ class StickyGroupedListViewState<T, E>
 
     ItemPosition currentItem =
         _listener.itemPositions.value.where((ItemPosition position) {
-      itemEdge = widget.reverse
+      final itemEdge = widget.reverse
           ? 1 - position.itemLeadingEdge
           : position.itemTrailingEdge;
       return !_isSeparator!(position.index) && itemEdge > fixedHeaderThreshold;
