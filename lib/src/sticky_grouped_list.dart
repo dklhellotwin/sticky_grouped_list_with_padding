@@ -34,7 +34,7 @@ class StickyGroupedListView<T, E> extends StatefulWidget {
 
   /// Called to build group separators for each group.
   /// element is always the first element of the group.
-  final Widget Function(T element) groupSeparatorBuilder;
+  final Widget Function(T element, bool isFixed) groupSeparatorBuilder;
 
   /// Called to build children for the list with
   /// 0 <= element < elements.length.
@@ -259,8 +259,8 @@ class StickyGroupedListViewState<T, E>
             if (index == hiddenIndex) {
               return Opacity(
                 opacity: 0,
-                child:
-                    widget.groupSeparatorBuilder(sortedElements[actualIndex]),
+                child: widget.groupSeparatorBuilder(
+                    sortedElements[actualIndex], false),
               );
             }
 
@@ -269,8 +269,8 @@ class StickyGroupedListViewState<T, E>
               E prev = widget.groupBy(
                   sortedElements[actualIndex + (widget.reverse ? 1 : -1)]);
               if (prev != curr) {
-                return widget
-                    .groupSeparatorBuilder(sortedElements[actualIndex]);
+                return widget.groupSeparatorBuilder(
+                    sortedElements[actualIndex], false);
               }
               return widget.separator;
             }
@@ -376,7 +376,7 @@ class StickyGroupedListViewState<T, E>
         color:
             widget.floatingHeader ? null : widget.stickyHeaderBackgroundColor,
         width: widget.floatingHeader ? null : MediaQuery.of(context).size.width,
-        child: widget.groupSeparatorBuilder(sortedElements[index]),
+        child: widget.groupSeparatorBuilder(sortedElements[index], true),
       );
     }
     return Container();
