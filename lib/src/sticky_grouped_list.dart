@@ -256,9 +256,9 @@ class StickyGroupedListViewState<T, E>
           itemBuilder: (context, index) {
             int actualIndex = index ~/ 2;
 
-            if (index == hiddenIndex && !widget.reverse) {
+            if (index == hiddenIndex) {
               return Opacity(
-                opacity: 0,
+                opacity: 1,
                 child: widget.groupSeparatorBuilder(
                     sortedElements[actualIndex], false),
               );
