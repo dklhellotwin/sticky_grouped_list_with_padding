@@ -229,7 +229,7 @@ class StickyGroupedListViewState<T, E>
   @override
   Widget build(BuildContext context) {
     sortedElements = _sortElements();
-    var hiddenIndex = widget.reverse ? sortedElements.length * 2 : 0;
+    var hiddenIndex = widget.reverse ? sortedElements.length * 2 - 1 : 0;
     _isSeparator = widget.reverse ? (int i) => i.isOdd : (int i) => i.isEven;
 
     return Stack(
@@ -256,7 +256,7 @@ class StickyGroupedListViewState<T, E>
           itemBuilder: (context, index) {
             int actualIndex = index ~/ 2;
 
-            if (index == hiddenIndex) {
+            if (index == hiddenIndex && !widget.reverse) {
               return Opacity(
                 opacity: 0,
                 child: widget.groupSeparatorBuilder(
